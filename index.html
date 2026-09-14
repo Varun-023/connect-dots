@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Connect Dots - 2-Player Dots &amp; Boxes Game</title>
+  <meta name="description" content="Play the classic Dots &amp; Boxes game locally with two players on one device. Simple, casual, and competitive strategy game with a 20-second turn timer.">
+  <meta name="theme-color" content="#0B0F19">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='25' cy='50' r='18' fill='%23EF4444'/><circle cx='75' cy='50' r='18' fill='%233B82F6'/><rect x='25' y='46' width='50' height='8' fill='%23E2E8F0' rx='4'/></svg>">
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="app-header" id="app-header">
+      <div class="header-left">
+        <div class="brand-logo">
+          <span class="dot-icon dot-p1"></span>
+          <span class="dot-line"></span>
+          <span class="dot-icon dot-p2"></span>
+        </div>
+        <h1 class="logo-title">CONNECT DOTS</h1>
+      </div>
+
+      <div class="header-right">
+        <!-- Audio Controls (Independent Music and SFX) -->
+        <button id="btn-toggle-music" class="icon-btn" title="Toggle Music (M)" aria-label="Toggle Background Music">
+          <svg class="icon-music-on" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+          <svg class="icon-music-off hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+            <path d="M9 9v9"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <path d="M12 5.5V3l9 2v4.5"></path>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+        </button>
+
+        <button id="btn-toggle-sound" class="icon-btn" title="Toggle Sound Effects (S)" aria-label="Toggle Sound Effects">
+          <svg class="icon-sound-on" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <svg class="icon-sound-off hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+
+        <button id="btn-rules" class="icon-btn" title="How to Play" aria-label="Game Rules">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container for Screens -->
+    <main class="main-content">
+      
+      <!-- SCREEN 1: OFFLINE START SCREEN -->
+      <section id="screen-start" class="screen-view active">
+        <div class="start-card glass-panel">
+          <div class="hero-badge">LOCAL 2-PLAYER &bull; 20S TURN TIMER</div>
+          
+          <h2 class="hero-title">CONNECT DOTS</h2>
+          
+          <p class="hero-subtitle">
+            Connect the dots. Complete the boxes. Score more than your opponent.
+          </p>
+
+          <!-- 2 Players Display -->
+          <div class="players-display-grid">
+            <div class="player-intro-card p1-intro">
+              <div class="player-badge-avatar p1-bg">
+                <span class="avatar-dot dot-p1"></span>
+              </div>
+              <div class="player-intro-info">
+                <div class="player-intro-title">Player 1</div>
+                <div class="player-intro-color">🔴 Red</div>
+              </div>
+            </div>
+
+            <div class="vs-divider">VS</div>
+
+            <div class="player-intro-card p2-intro">
+              <div class="player-badge-avatar p2-bg">
+                <span class="avatar-dot dot-p2"></span>
+              </div>
+              <div class="player-intro-info">
+                <div class="player-intro-title">Player 2</div>
+                <div class="player-intro-color">🔵 Blue</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Actions -->
+          <div class="start-actions">
+            <button id="btn-start-game" class="btn btn-primary btn-glow btn-lg">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>START GAME</span>
+            </button>
+
+            <button id="btn-start-how-to-play" class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>HOW TO PLAY</span>
+            </button>
+          </div>
+
+          <!-- Mini Guide Quick Tips -->
+          <div class="mini-guide">
+            <div class="guide-item">
+              <span class="guide-num">1</span>
+              <span>Connect 2 adjacent dots</span>
+            </div>
+            <div class="guide-item">
+              <span class="guide-num">2</span>
+              <span>4th side captures box</span>
+            </div>
+            <div class="guide-item">
+              <span class="guide-num">3</span>
+              <span>Capture gives extra turn</span>
+            </div>
+            <div class="guide-item">
+              <span class="guide-num">4</span>
+              <span>20s timer per turn</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: GAME ARENA SCREEN -->
+      <section id="screen-game" class="screen-view">
+        <!-- Game Score & Status Bar with 20s Turn Timer -->
+        <div class="game-dashboard">
+          
+          <!-- Player 1 Card (Red) -->
+          <div class="player-card player-p1" id="card-player1">
+            <div class="player-avatar">
+              <span class="player-color-pill p1-bg"></span>
+              <span class="player-label">P1</span>
+            </div>
+            <div class="player-details">
+              <div class="player-name" id="name-p1">PLAYER 1</div>
+              <div class="player-color-tag tag-red">Red</div>
+            </div>
+            <div class="player-score" id="score-p1">0</div>
+          </div>
+
+          <!-- Turn & 20s Countdown Centerpiece -->
+          <div class="turn-centerpiece p1-active" id="turn-centerpiece">
+            <div class="turn-label" id="turn-label">PLAYER 1'S TURN</div>
+            
+            <div class="timer-pill urgency-normal" id="timer-pill">
+              <!-- Circular Countdown SVG -->
+              <svg class="timer-svg" viewBox="0 0 36 36">
+                <circle class="timer-track" cx="18" cy="18" r="16"></circle>
+                <circle class="timer-progress" id="timer-progress-ring" cx="18" cy="18" r="16"></circle>
+              </svg>
+              <span class="timer-seconds" id="timer-number">20</span>
+            </div>
+
+            <!-- "TIME'S UP!" alert banner -->
+            <div class="time-up-alert hidden" id="time-up-alert">
+              TIME'S UP!
+            </div>
+          </div>
+
+          <!-- Player 2 Card (Blue) -->
+          <div class="player-card player-p2" id="card-player2">
+            <div class="player-score" id="score-p2">0</div>
+            <div class="player-details text-right">
+              <div class="player-name" id="name-p2">PLAYER 2</div>
+              <div class="player-color-tag tag-blue">Blue</div>
+            </div>
+            <div class="player-avatar">
+              <span class="player-color-pill p2-bg"></span>
+              <span class="player-label">P2</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Interactive Board Container -->
+        <div class="board-wrapper">
+          <div class="board-frame" id="board-container">
+            <!-- Dynamic SVG board is rendered here by boardRenderer.js -->
+          </div>
+        </div>
+
+        <!-- Game Controls Footer -->
+        <div class="game-footer">
+          <button id="btn-reset-game" class="btn btn-xs btn-outline" title="Restart Game">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+            <span>Restart</span>
+          </button>
+          
+          <button id="btn-home-game" class="btn btn-xs btn-text" title="Return to Start Screen">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Home</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MODAL: GAME OVER -->
+    <div id="modal-gameover" class="modal-overlay hidden">
+      <div class="modal-card glass-panel animate-pop">
+        <div class="modal-header">
+          <div class="trophy-icon" id="gameover-icon">🏆</div>
+          <h2 class="modal-title" id="gameover-title">PLAYER 1 WINS!</h2>
+          <p class="modal-subtitle" id="gameover-subtitle">Final Match Results</p>
+        </div>
+
+        <div class="result-score-grid">
+          <div class="result-card p1-card" id="res-card-p1">
+            <div class="result-header">
+              <span class="dot-icon dot-p1"></span>
+              <span class="result-name">PLAYER 1 (RED)</span>
+            </div>
+            <div class="result-score" id="res-score-p1">0 Boxes</div>
+            <div class="result-status" id="res-badge-p1">Winner</div>
+          </div>
+
+          <div class="result-vs">VS</div>
+
+          <div class="result-card p2-card" id="res-card-p2">
+            <div class="result-header">
+              <span class="dot-icon dot-p2"></span>
+              <span class="result-name">PLAYER 2 (BLUE)</span>
+            </div>
+            <div class="result-score" id="res-score-p2">0 Boxes</div>
+            <div class="result-status" id="res-badge-p2">Runner Up</div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-play-again" class="btn btn-primary btn-glow">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <polyline points="23 20 23 14 17 14"></polyline>
+              <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+            </svg>
+            <span>PLAY AGAIN</span>
+          </button>
+          
+          <button id="btn-back-home" class="btn btn-secondary">
+            <span>HOME</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: HOW TO PLAY RULES -->
+    <div id="modal-rules" class="modal-overlay hidden">
+      <div class="modal-card glass-panel animate-pop">
+        <div class="modal-header">
+          <h2 class="modal-title">How to Play Connect Dots</h2>
+          <p class="modal-subtitle">Classic 2-Player Strategy on One Device</p>
+        </div>
+
+        <div class="rules-list">
+          <div class="rule-box">
+            <div class="rule-icon">1</div>
+            <div class="rule-content">
+              <strong>Connect Adjacent Dots</strong>
+              <p>Players take turns connecting two adjacent dots horizontally or vertically. Diagonal lines are not allowed.</p>
+            </div>
+          </div>
+
+          <div class="rule-box">
+            <div class="rule-icon">2</div>
+            <div class="rule-content">
+              <strong>20-Second Turn Timer</strong>
+              <p>Each player gets 20 seconds to make a move. If the timer expires, the turn automatically passes to the other player.</p>
+            </div>
+          </div>
+
+          <div class="rule-box">
+            <div class="rule-icon">3</div>
+            <div class="rule-content">
+              <strong>Capture Boxes &amp; Extra Turns</strong>
+              <p>Completing the 4th side of a square captures it in your color (+1 point) and awards you an extra turn with a fresh 20 seconds!</p>
+            </div>
+          </div>
+
+          <div class="rule-box">
+            <div class="rule-icon">4</div>
+            <div class="rule-content">
+              <strong>Win the Game</strong>
+              <p>When all 25 boxes on the 6x6 grid have been completed, the player with the most captured boxes wins.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-close-rules" class="btn btn-primary">
+            <span>Got It!</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div id="toast" class="toast-popup hidden">
+      <span id="toast-message">Message</span>
+    </div>
+
+  </div>
+
+  <!-- Client JavaScript Modules -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
